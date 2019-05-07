@@ -4,6 +4,24 @@ var MY_TOKEN = require('./secrets').GITHUB_TOKEN;
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
 
+if (process.argv.length < 4) {
+    console.log(`
+------------------------------------------------------------
+USER ARGUMENTS NOT FOUND!
+------------------------------------------------------------
+
+Try executed from the command line, in the following manner:
+
+        > node download_avatars.js <owner> <repo>
+    
+Example:
+        > node download_avatars.js jquery jquery
+
+------------------------------------------------------------
+    `);
+    process.exit()
+}
+
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function downloadImageByURL(url, filePath) {
