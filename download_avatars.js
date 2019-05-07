@@ -4,6 +4,7 @@ var MY_TOKEN = require('./secrets').GITHUB_TOKEN;
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
 
+// Check the user has input two arguments for owner and repo names.
 if (process.argv.length < 4) {
     console.log(`
 ------------------------------------------------------------
@@ -19,17 +20,21 @@ Example:
 
 ------------------------------------------------------------
     `);
-    process.exit()
+    process.exit();
 }
 
+// Welcome message.
 console.log('Welcome to the GitHub Avatar Downloader!');
 
+
+// Copy file given the usl and local file path.
 function downloadImageByURL(url, filePath) {
     request.get(url)
         .on('error', err => { throw err; })
         .pipe(fs.createWriteStream(filePath))
 }
 
+// Access github API to get a list of contributers given an owner and repo name.
 function getRepoContributors(repoOwner, repoName, cb) {
     
     var options = {
@@ -41,17 +46,16 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
 
     request(options, function(err, res, body) {
-        body = JSON.parse(body)
+        body = JSON.parse(body);
+        // Invoke callback function to loop through contributors names.
         cb(err, body);
     });
 
 }
 
+// Function call to get repo contributors and download their avatar images.
 getRepoContributors(repoOwner, repoName, function(err, result) {
-    // console.log("Errors:", err);
     result.forEach(record => {
-        downloadImageByURL(record.avatar_url, './avatars/' + record.login + '.jpg')
+        downloadImageByURL(record.avatar_url, 'avatars/' + record.login + '.jpg');
     });
 });
-
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg")
