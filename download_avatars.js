@@ -1,6 +1,5 @@
 var request = require('request');
 var MY_TOKEN = require('./secrets').GITHUB_TOKEN;
-console.log(MY_TOKEN);
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -15,7 +14,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
 
     request(options, function(err, res, body) {
-        cb(err, body);
+        JSON.parse(body).forEach(record => {
+            console.log(record.avatar_url)
+        });
+        //cb(err, body);
     });
 
 }
