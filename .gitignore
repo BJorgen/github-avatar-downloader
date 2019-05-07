@@ -2,6 +2,7 @@
 notes.txt
 secrets.js
 *.jpg
+
 # Logs
 logs
 *.log
